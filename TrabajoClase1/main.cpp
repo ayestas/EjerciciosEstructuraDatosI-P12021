@@ -32,7 +32,5 @@ int main() {
 		cout << "array [" << i << "] = { " << &A[i] << ", " << A[i] << " }\n";
 	}
 
-
-
 	_getch();
 }
