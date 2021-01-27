@@ -13,9 +13,15 @@ Empleado::Empleado(int _codigo, std::string _nombre, float _salario)
 	: codigoEmpleado(_codigo), nombreEmpleado(_nombre), salarioEmpleado(_salario) {
 }
 
-//void Empleado::ImprimirEmpleado() {
-//	cout << "Empleado { codigo: " << codigoEmpleado << ", nombre: " << nombreEmpleado << ", salario: " << salarioEmpleado << " }\n";
-//}
+void Empleado::ImprimirEmpleado() {
+	cout << "Empleado { codigo: " << codigoEmpleado << ", nombre: " << nombreEmpleado << ", salario: " << salarioEmpleado << " }\n";
+}
+
+int Empleado::getCodigo() { return codigoEmpleado; }
+
+string Empleado::getNombre() { return nombreEmpleado; }
+
+float Empleado::getSalario() { return salarioEmpleado; }
 
 std::ostream& operator<<(std::ostream& cout, const Empleado& a) {
 	cout << "Empleado { codigo: " << a.codigoEmpleado << ", nombre: " << a.nombreEmpleado << ", salario: " << a.salarioEmpleado << " }\n";

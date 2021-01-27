@@ -13,7 +13,11 @@ class Empleado {
 public:
 	Empleado();
 	Empleado(int, std::string, float);
-	//void ImprimirEmpleado();
+	void ImprimirEmpleado();
+
+	int getCodigo();
+	string getNombre();
+	float getSalario();
 
 private:
 	int codigoEmpleado;

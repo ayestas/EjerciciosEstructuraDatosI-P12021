@@ -12,6 +12,11 @@ class Planilla {
 public:
 	void AgregarEmpleados(int, std::string, float);
 	void ImprimirEmpleado();
+	bool EstaVacia();
+	int ObtenerCantidadEmpleados();
+	float ObtenerTotalSalarios();
+	void ObtenerSalarioMayor();
+	Empleado BuscarEmpleado(int);
 
 private:
 	list<Empleado> listaEmpleados;
