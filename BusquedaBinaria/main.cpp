@@ -39,6 +39,7 @@ int BusquedaBinaria(const int arreglo[], int tamano, int clave) {
     int derecha = tamano - 1;
     int izquierda = 0;
     int centro;
+
     while (izquierda <= derecha)
     {
         centro = (derecha + izquierda) / 2;
