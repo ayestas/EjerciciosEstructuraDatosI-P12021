@@ -17,6 +17,7 @@ int main() {
 
     int arreglo[tamano] = { 25,17,13,16,41,32,12,115,95,84,54,63,78,21,10 };
     OrdenarArreglo(arreglo, tamano);
+
     cout << "Elementos del arreglo: " << endl;
     MostrarArreglo(arreglo, tamano);
 
