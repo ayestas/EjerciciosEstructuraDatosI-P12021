@@ -29,12 +29,6 @@ int main() {
     return 0;
 }
 
-void MostrarArreglo(const int arreglo[], int tamano)
-{
-    for (int i = 0; i < tamano; i++)
-        cout << "[" << i << "]=" << arreglo[i] << endl;
-}
-
 int BusquedaBinaria(const int arreglo[], int tamano, int clave) {
     int derecha = tamano - 1;
     int izquierda = 0;
@@ -52,6 +46,12 @@ int BusquedaBinaria(const int arreglo[], int tamano, int clave) {
                 izquierda = centro + 1;
     }
     return -1;
+}
+
+void MostrarArreglo(const int arreglo[], int tamano)
+{
+    for (int i = 0; i < tamano; i++)
+        cout << "[" << i << "]=" << arreglo[i] << endl;
 }
 
 void OrdenarArreglo(int arreglo[], int tamano) {
