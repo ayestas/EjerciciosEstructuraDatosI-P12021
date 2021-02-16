@@ -4,9 +4,12 @@
 
 #include <iostream>
 
+using namespace std;
+
 template <class T>
 struct Node {
 	T data;
+	int priority;
 	Node<T>* next;
 	Node<T>* previous;
 
@@ -48,21 +51,20 @@ PQueue<T>::PQueue()
 
 template<class T>
 void PQueue<T>::enqueue(T valor, int priority) {
-	Node<T>* nuevo = new Node<T>(valor);
+	Node<T>* nuevo = new Node<T>(valor, priority);
 
-	if (empty()) {
+	if (isEmpty()) {
 		primero = nuevo;		
 	}
 	else {
 
-		if (nuevo->data > nuevo->next->data) {
+		if (nuevo->priority > primero->priority) {
 			nuevo->next = primero;
-			primero->previous(nuevo);
 			primero = nuevo;
+			
 		}
 		else {
 			primero->next = nuevo;
-			nuevo->previous(primero);
 			nuevo = primero;
 		}
 	}
@@ -70,8 +72,8 @@ void PQueue<T>::enqueue(T valor, int priority) {
 
 template<class T>
 PQueue<T> PQueue<T>::dequeue() {
-	if (empty()) {
-		primero = nuevo;
+	if (isEmpty()) {
+		return;
 	}
 
 	if (primero = ultimo) {
@@ -94,18 +96,51 @@ bool PQueue<T>::isEmpty() {
 
 template<class T>
 int PQueue<T>::getCountPriorities(int priority) {
-	if (empty()) {
-		primero = nuevo;
+	if (isEmpty()) {
+		primero = nullptr;
 	}
 
+	int count = 0;
+	Node<T>* actual = primero;
+	do {
+		if (actual->priority == priority) {
+			count++;
+		}
+		actual = actual->next;
+
+	} while (actual != nullptr);
+
 }
 
 template<class T>
-void PQueue<T>::Swap(PQueue<T>)
-{
+void PQueue<T>::Swap(PQueue<T> a) {
+	if (isEmpty()) {
+		primero = a.primero = nullptr;
+	}
+
+	Node<T>* actual = primero;
+
+	do {
+		actual = a.primero;
+		a.primero = actual;
+
+		actual = actual->next;
+		a.primero = primero->next;
+
+	} while (actual != nullptr);
 }
 
 template<class T>
-inline void PQueue<T>::print()
-{
+inline void PQueue<T>::print() {
+	if (isEmpty()) {
+		return;
+	}
+	Node<T>* actual = primero;
+
+	do {
+		cout << "[" << actual->data << " ] ";
+		actual = actual->next;
+	} while (actual != primero);
+
+	cout << "\n";
 }
