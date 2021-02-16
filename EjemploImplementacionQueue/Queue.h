@@ -9,8 +9,8 @@ using namespace std;
 template <class T>
 struct QueueNode{
 	T _data;
-	QueueNode<T> _next;
-	QueueNode<T> _previous;
+	QueueNode<T>* _next;
+	QueueNode<T>* _previous;
 
 	QueueNode(const T& d) {
 		_data = d;
@@ -88,7 +88,7 @@ void Queue<T>::pop_front() {
 template <class T>
 int Queue<T>::size() {
 	if (empty()) {
-		return;
+		return 0;
 	}
 
 	int count = 0;
@@ -111,7 +111,6 @@ void Queue<T>::print() {
 		return;
 	}
 
-	int count = 0;
 	QueueNode<T>* actual = first;
 
 	do {
