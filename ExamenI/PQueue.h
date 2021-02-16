@@ -15,7 +15,7 @@ struct Node {
 
 	Node(const T& _data, int _priority) {
 		data = _data;
-		_priority = 0;
+		_priority = priority;
 		next = previous = nullptr;
 	}
 };
