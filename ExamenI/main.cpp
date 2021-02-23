@@ -14,5 +14,4 @@ int main() {
 
 	c1.print();
 
-	_getch();
 }

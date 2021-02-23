@@ -16,7 +16,8 @@ struct Node {
 	Node(const T& _data, int _priority) {
 		data = _data;
 		_priority = priority;
-		next = previous = nullptr;
+		next = nullptr;
+		previous = nullptr;
 	}
 };
 
@@ -57,16 +58,14 @@ void PQueue<T>::enqueue(T valor, int priority) {
 		primero = nuevo;		
 	}
 	else {
+		Node<T>* actual = primero;
 
-		if (nuevo->priority > primero->priority) {
-			nuevo->next = primero;
-			primero = nuevo;
+		while (actual != nullptr) 	{
+			actual = actual->next;
+		}
+
+		actual->next = nuevo;
 			
-		}
-		else {
-			primero->next = nuevo;
-			nuevo = primero;
-		}
 	}
 }
 
@@ -138,7 +137,7 @@ inline void PQueue<T>::print() {
 	Node<T>* actual = primero;
 
 	do {
-		cout << "[" << actual->data << " ] ";
+		cout << "[" << actual << " ] ";
 		actual = actual->next;
 	} while (actual != primero);
 
