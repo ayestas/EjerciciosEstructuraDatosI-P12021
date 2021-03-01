@@ -14,11 +14,12 @@ int main() {
 	tree.addNode(16);
 	tree.addNode(44);
 
-	tree.printPreOrden();
-	cout << "\n";
+	tree.addNode(44);
+	tree.addNode(63);
+
 	tree.printInOrden();
+
 	cout << "\n";
-	tree.printPosOrden();
 
 	_getch();
 }
