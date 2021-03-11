@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1191555c-19fe-47aa-84b0-e3238b10f90a}</ProjectGuid>
-    <RootNamespace>EjemploArbolNario</RootNamespace>
+    <ProjectGuid>{449231ae-5973-44a1-86b4-ae333193f455}</ProjectGuid>
+    <RootNamespace>ComponentesConvexos</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -140,10 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlanEstudio.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="PlanEstudio.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

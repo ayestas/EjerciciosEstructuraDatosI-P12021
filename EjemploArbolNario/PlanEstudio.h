@@ -27,6 +27,8 @@ class PlanEstudio {
 public:
 	PlanEstudio ();
 	void agregarMateria(int, int, int, const char*);
+	void eliminarMateria(int);
+	void editarMateria(int);
 	void imprimir();
 	materia* buscarMateria(int);
 
@@ -34,6 +36,10 @@ private:
 	materia* raiz;
 
 	bool estaVacio();
+
+	materia* buscarMateriasRec(materia*, int);
+	materia* buscarPadreRec(int, materia*);
+	void imprimirRec(materia*);
 };
 
 #endif // !PLAN_ESTUDIO_H
