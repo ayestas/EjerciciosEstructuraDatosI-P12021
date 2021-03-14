@@ -11,6 +11,7 @@ struct materia {
 	short int uv;
 	int añoPlan;
 	short int periodo;
+	char* requisito;
 
 	int cantidadHijos;
 	materia** hijos; //array of pointers :O
@@ -34,11 +35,10 @@ class PlanEstudioUniversidad {
 public:
 	PlanEstudioUniversidad ();
 
+	void agregarMateriaPadre(int, int, int, int, const char*);
 	void agregarMateria(int, int, int, int, int, const char*);
-	void eliminarMateria(int);
-	void editarMateria(int);
 	void imprimir();
-	materia* buscarMateria(int);
+	materia* buscarRaiz(int);
 
 private:
 	materia** raices;
@@ -46,9 +46,7 @@ private:
 	int cantidadRaices;
 	bool estaVacio();
 
-	materia* buscarMateriasRec(materia*, int);
-	materia* buscarPadreRec(int, materia**);
-	void imprimirRec(materia**);
+	void imprimirRec(materia*);
 };
 
 #endif // !PLAN_ESTUDIO_UNIVERSIDAD_H
