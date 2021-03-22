@@ -1,13 +1,23 @@
 #include "PlanEstudio.h"
 #include <iostream>
+#include <fstream>
 
 using std::cout;
+using std::ofstream;
+using std::ifstream;
+using std::ios;
 
 PlanEstudio::PlanEstudio()
 : raiz(nullptr) {
 }
 
 void PlanEstudio::agregarMateria(int _codigoPadre, int _codigoMateria, int _uv, const char* _nombreMateria) {
+	ofstream planFile("plan.bin", ios::out | ios::app | ios::binary);
+	if (!planFile) {
+		cout << "Error al intentar abrir el archivo .bin\n";
+		return;
+	}
+	
 	materia* nueva = new materia(_codigoMateria, _uv, _nombreMateria);
 
 	if (estaVacio()) {
@@ -43,7 +53,10 @@ void PlanEstudio::agregarMateria(int _codigoPadre, int _codigoMateria, int _uv, 
 			padre->cantidadHijos++;
 
 			cout << "Clase agregasa exitosamente!\n";
+
+			planFile.write(reinterpret_cast<const char*>(&nueva), sizeof(materia*));
 		}
+		planFile.close();
 	}
 }
 
@@ -152,7 +165,17 @@ void PlanEstudio::imprimirRec(materia* _raiz) {
 	if (_raiz == nullptr)
 		return;
 
-	cout << "materia { codigo: " << _raiz->codigo << ", uv: " << _raiz->uv << ", nombre: " << _raiz->nombre << " }\n";
+	ifstream planFile("plan.bin", ios::in | ios::binary);
+	if(!planFile)
+		cout << "Error al intentar abrir el archivo .bin\n";
+
+	planFile.seekg(0, ios::beg);
+	planFile.read(reinterpret_cast<char*>(&_raiz), sizeof(materia*));
+
+	while (!planFile.eof()) {
+		cout << "materia { codigo: " << _raiz->codigo << ", uv: " << _raiz->uv << ", nombre: " << _raiz->nombre << " }\n";
+		planFile.read(reinterpret_cast<char*>(&_raiz), sizeof(materia*));
+	}
 
 	for (int i = 0; i < _raiz->cantidadHijos; i++) {
 		imprimirRec(_raiz->hijos[i]);

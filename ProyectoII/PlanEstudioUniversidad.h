@@ -3,50 +3,42 @@
 #define PLAN_ESTUDIO_UNIVERSIDAD_H
 
 #include <iostream>
+#include <string>
+#include <vector>
+#include "Materias.h"
+
 using std::cout;
+using std::cin;
+using std::ofstream;
+using std::ifstream;
+using std::ios;
+using std::string;
+using std::vector;
 
-struct materia {
-	int codigo;
-	char* nombre;
-	short int uv;
-	int añoPlan;
-	short int periodo;
-	char* requisito;
-
-	int cantidadHijos;
-	materia** hijos; //array of pointers :O
-
-	materia(int _codigo, const char* _nombre, int _uv, int _añoPlan, int _periodo) {
-		codigo = _codigo;
-		uv = _uv;
-		añoPlan = _añoPlan;
-		periodo = _periodo;
-
-		nombre = new char[strlen(_nombre)];
-		strcpy_s(nombre, strlen(_nombre) + 1, _nombre);
-
-		cantidadHijos = 0;
-		hijos = nullptr;
-	}
-
-};
+struct archivo {
+	int codigo; //4 bytes
+	char* nombre; //40 bytes
+	short int totalClases; //2 bytes
+	short int totalUV; //2 bytes
+	short int bloques; //2 bytes
+}; //sizeof = 50 bytes
 
 class PlanEstudioUniversidad {
 public:
 	PlanEstudioUniversidad ();
 
-	void agregarMateriaPadre(int, int, int, int, const char*);
-	void agregarMateria(int, int, int, int, int, const char*);
-	void imprimir();
-	materia* buscarRaiz(int);
+	void agregarPlanEstudio(int, const char*, int);
+	void agregarMateriaPadre(int, int);
+	void agregarMateria(int, int);
+	
+	void consultarPlanEstudio();
+	void imprimirClases(int);
+
+	bool BuscarPlanEstudio(int);
 
 private:
-	materia** raices;
-
-	int cantidadRaices;
-	bool estaVacio();
-
-	void imprimirRec(materia*);
+	vector<int> codigos;
+	vector<Materias*> VecClases;
 };
 
 #endif // !PLAN_ESTUDIO_UNIVERSIDAD_H

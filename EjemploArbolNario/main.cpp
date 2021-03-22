@@ -14,19 +14,6 @@ int main() {
 	plan.agregarMateria(100, 104, 3, "Programacion 1");
 	plan.agregarMateria(100, 105, 4, "Estadistica 1");
 
-	plan.agregarMateria(0, 200, 1, "Frances I");
-	plan.agregarMateria(200, 201, 4, "Frances II");
-	plan.agregarMateria(200, 202, 4, "Frances III");
-	plan.agregarMateria(200, 203, 4, "Frances IV");
-
-
 	plan.imprimir();
 
-	plan.eliminarMateria(102);
-
-	cout << "\n";
-
-	plan.imprimir();
-
-	_getch();
 }

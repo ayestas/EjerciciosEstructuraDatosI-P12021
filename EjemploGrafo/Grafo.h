@@ -15,6 +15,8 @@ private:
 	int nVertices;
 	char* vertices;
 	int** aristas; //matriz de adyacencia
+
+	int obtenerIndiceVertice(char);
 };
 
 #endif // !GRAFO_H
