@@ -100,6 +100,52 @@ void Grafo::imprimir() {
 	}
 }
 
+vector<vector<char>> Grafo::obtenerListaAdy() {
+	vector<vector<char>> LA(nVertices);
+
+	for (int i = 0; i < nVertices; i++) {
+		for (int j = 0; j < nVertices; j++) {
+			//Empezar a insertar al vector
+			if (aristas[i][j] != 0) {
+				LA[i].push_back(vertices[j]);
+			}
+		}
+	}
+
+	return LA;
+}
+
+void Grafo::imprimirListaAdy() {
+	vector<vector<char>> LA(nVertices);
+
+	cout << "Vertices:{ ";
+	for (int i = 0; i < nVertices; i++) {
+
+		if (i != nVertices - 1) {
+			cout << vertices[i] << ", ";
+		}
+		else {
+			cout << vertices[i];
+		}
+	}
+	cout << "}\n";
+
+	cout << "\nAristas: \n";
+	cout << setw(3) << " ";
+	for (int i = 0; i < nVertices; i++) {
+		cout << setw(3) << " " << vertices[i] << "  ";
+	}
+	cout << "\n";
+
+	for (int x = 0; x < nVertices; x++) {
+		cout << setw(3) << vertices[x];
+		for (int i = 0; i < nVertices; i++) {
+			cout << setw(3) << "[ " << aristas[x][i] << " ]";
+		}
+		cout << endl;
+	}
+}
+
 int Grafo::obtenerIndiceVertice(char _vertice) {
 	for (int i = 0; i < nVertices; i++) {
 		if (vertices[i] == _vertice)

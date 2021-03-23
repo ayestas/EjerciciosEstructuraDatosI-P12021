@@ -14,6 +14,9 @@ public:
 	void agregarArista(char, char);
 	void imprimir();
 
+	vector<vector<char>> obtenerListaAdy();
+	void imprimirListaAdy();
+
 private:
 	int nVertices;
 	char* vertices;
