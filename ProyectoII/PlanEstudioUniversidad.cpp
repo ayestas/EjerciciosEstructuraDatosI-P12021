@@ -7,7 +7,7 @@ PlanEstudioUniversidad::PlanEstudioUniversidad() {
 	
 }
 
-void PlanEstudioUniversidad::agregarPlanEstudio(int _codigo, const char* _nombre, int _bloques) {
+void PlanEstudioUniversidad::agregarPlanEstudio(int _codigo, const char* _nombre, int _bloques, int _clases) {
 	string filename = std::to_string(_codigo) + "_plan.bin";
 	ofstream planFile(filename, ios::out | ios::app | ios::binary);
 	if (!planFile) {
@@ -15,111 +15,142 @@ void PlanEstudioUniversidad::agregarPlanEstudio(int _codigo, const char* _nombre
 		return;
 	}
 	archivo nuevo;
+	clases clase;
+	int UVs = 0;
 
 	nuevo.codigo = _codigo;
 	nuevo.nombre = new char[strlen(_nombre)];
 	strcpy_s(nuevo.nombre, strlen(_nombre) + 1, _nombre);
 	nuevo.bloques = _bloques;
-	
-	nuevo.totalClases = 0;
-	nuevo.totalUV = 0;
+	nuevo.totalClases = _clases;
+	nuevo.totalUV = UVs;
 
-	codigos.push_back(_codigo);
-
-	agregarMateriaPadre(_bloques, _codigo);
+	Materias* nuevoArbol = new Materias(_codigo);
 
 	planFile.write(reinterpret_cast<const char*>(&nuevo), sizeof(archivo));
+
+	for (int i = 0; i < _bloques; i++) {
+		int _codigoMateria = 0, _uvMateria = 0, _añoPlanMateria = 0, _periodoMateria = 0;
+		string nombreMateria = "";
+		const char* _nombreMateria = new char[40];
+
+		cout << "\n* INGRESO  BLOQUES *";
+		cout << "\nIngrese el codigo de la clase: ";
+		cin >> _codigoMateria;
+		cout << "Ingrese el nombre de la clase: ";
+		cin >> nombreMateria;
+		cout << "Ingrese las unidades valorativas: ";
+		cin >> _uvMateria;
+		cout << "Ingrese el año de ingreso: ";
+		cin >> _añoPlanMateria;
+		cout << "Ingrese el periodo de ingreso: ";
+		cin >> _periodoMateria;
+
+		_nombreMateria = nombreMateria.c_str();
+		UVs += _uvMateria;
+
+		clase.codigo = _codigoMateria;
+		clase.nombre = new char[strlen(_nombreMateria)];
+		strcpy_s(clase.nombre, strlen(_nombreMateria) + 1, _nombreMateria);
+		clase.uv = _uvMateria;
+		clase.añoPlan = _añoPlanMateria;
+		clase.periodo = _periodoMateria;
+		clase.requisito = 0;
+
+		nuevoArbol->agregarMateriaPadre(_codigoMateria, _uvMateria, _añoPlanMateria, _periodoMateria, _nombreMateria, 0);
+		planFile.write(reinterpret_cast<const char*>(&clase), sizeof(clases));
+
+		cout << "\nBLOQUE AGREGADO CON EXITO!!!\n";
+	}
+
+	for (int i = 0; i < _clases; i++) {
+		int  _codigoPadre = 0, _codigoMateria = 0, _uvMateria = 0, _añoPlanMateria = 0, _periodoMateria = 0, _requisitoMateria = 0;
+		string nombreMateria = "";
+		const char* _nombreMateria = new char[40];
+
+		cout << "\n* INGRESO CLASES *";
+		cout << "\nIngrese el codigo del bloque donde ubicar la clase: ";
+		cin >> _codigoPadre;
+		cout << "Ingrese el codigo de la clase: ";
+		cin >> _codigoMateria;
+		cout << "Ingrese el nombre de la clase: ";
+		cin >> nombreMateria;
+		cout << "Ingrese las unidades valorativas: ";
+		cin >> _uvMateria;
+		cout << "Ingrese el año de ingreso: ";
+		cin >> _añoPlanMateria;
+		cout << "Ingrese el periodo de ingreso: ";
+		cin >> _periodoMateria;
+		cout << "Ingrese el codigo de clase requisito: ";
+		cin >> _requisitoMateria;
+
+		_nombreMateria = nombreMateria.c_str();
+		UVs += _uvMateria;
+
+		clase.codigo = _codigoMateria;
+		clase.nombre = new char[strlen(_nombreMateria)];
+		strcpy_s(clase.nombre, strlen(_nombreMateria) + 1, _nombreMateria);
+		clase.uv = _uvMateria;
+		clase.añoPlan = _añoPlanMateria;
+		clase.periodo = _periodoMateria;
+		clase.requisito = 0;
+
+		nuevoArbol->agregarMateria(_codigoPadre, _codigoMateria, _uvMateria, _añoPlanMateria, _periodoMateria, _nombreMateria, _requisitoMateria);
+		planFile.write(reinterpret_cast<const char*>(&clase), sizeof(clases));
+
+		cout << "\nCLASE AGREGADA CON EXITO!!!\n";
+	}
+
+	VecClases.push_back(nuevoArbol);
+	codigos.push_back(_codigo);
 
 	planFile.close();
 
 }
 
-void PlanEstudioUniversidad::agregarMateriaPadre(int bloques, int _codigoPlan) {
-	Materias* nuevoArbol = new Materias(_codigoPlan);
+void PlanEstudioUniversidad::consultarPlanEstudio(int _codigoPlan) {
+	string filename = std::to_string(_codigoPlan) + "_plan.bin";
+	ifstream planFile(filename, ios::in | ios::binary);
+	if (!planFile)
+		cout << "Error al intentar abrir el archivo .bin\n";
 
-	for (int i = 0; i < bloques; i++) {
-		int _codigoMateria = 0, _uv = 0, _añoPlan = 0, _periodo = 0;
-		string nombre = "";
-		const char* _nombre = new char[40];
+	archivo actual;
+	clases clase;
 
-		cout << "\nIngrese el codigo de la clase: ";
-		cin >> _codigoMateria;
-		cout << "\nIngrese el nombre de la clase: ";
-		cin >> nombre;
-		cout << "\nIngrese las unidades valorativas: ";
-		cin >> _uv;
-		cout << "\nIngrese el año de ingreso: ";
-		cin >> _añoPlan;
-		cout << "\nIngrese el periodo de ingreso: ";
-		cin >> _periodo;
+	planFile.seekg(0, ios::beg);
 
-		_nombre = nombre.c_str();
+	planFile.read(reinterpret_cast<char*>(&actual), sizeof(archivo));
 
-		nuevoArbol->agregarMateriaPadre(_codigoMateria, _uv, _añoPlan, _periodo, _nombre, 0);
+	while (!planFile.eof()) {
+		cout << "Plan Estudio { codigo: " << actual.codigo << ", nombre: " << actual.nombre
+			<< ", cantidad de clases: " << actual.totalClases << ", total de UV: " << actual.totalUV
+			<< ", cantidad de bloques: " << actual.bloques << " }\n\n";
 
-		cout << "\nBLOQUE AGREGADO CON EXITO!!!\n";
+		planFile.read(reinterpret_cast<char*>(&clase), sizeof(clases));
+
+		cout << "materia { codigo: " << clase.codigo << ", nombre: " << clase.nombre
+			<< ", UVs: " << clase.uv << ", año: " << clase.añoPlan << ", periodo: "
+			<< clase.periodo << ", requisito: " << clase.requisito << " }\n";
 	}
 
-	VecClases.push_back(nuevoArbol);
-}
+	planFile.close();
 
-void PlanEstudioUniversidad::agregarMateria(int _codigoPlan, int _codigoRaiz) {
-	for (int i = 0; i < VecClases.size(); i++) {
-		if (VecClases[i]->getCodigoPlan() == _codigoPlan) {
-			int _codigoMateria = 0, _uv = 0, _añoPlan = 0, _periodo = 0, _requisito = 0;
-			string nombre = "";
-			const char* _nombre = new char[40];
-
-			cout << "\nIngrese el codigo de la clase: ";
-			cin >> _codigoMateria;
-			cout << "\nIngrese el nombre de la clase: ";
-			cin >> nombre;
-			cout << "\nIngrese las unidades valorativas: ";
-			cin >> _uv;
-			cout << "\nIngrese el año de ingreso: ";
-			cin >> _añoPlan;
-			cout << "\nIngrese el periodo de ingreso: ";
-			cin >> _periodo;
-			cout << "\nIngrese el codigo de clase requisito: ";
-			cin >> _requisito;
-
-			_nombre = nombre.c_str();
-
-			VecClases[i]->agregarMateria(_codigoRaiz, _codigoMateria, _uv, _añoPlan, _periodo, _nombre, _requisito);
-
-			cout << "\nCLASE AGREGADA CON EXITO!!!\n";
-		}
-	}
-}
-
-void PlanEstudioUniversidad::consultarPlanEstudio() {
-	for (int i = 0; i < codigos.size(); i++) {
-		string filename = std::to_string(codigos[i]) + "_plan.bin";
-
-		ifstream planFile(filename, ios::in | ios::binary);
-		if (!planFile)
-			cout << "Error al intentar abrir el archivo .bin\n";
-
-		archivo actual;
-
-		planFile.seekg(0, ios::beg);
-		planFile.read(reinterpret_cast<char*>(&actual), sizeof(archivo));
-
-		while (!planFile.eof()) {
-			cout << "Plan Estudio { codigo: " << actual.codigo << ", nombre: " << actual.nombre
-				<< ", cantidad de clases: " << actual.totalClases << ", total de UV: " << actual.totalUV
-				<< ", cantidad de bloques: " << actual.bloques << " }\n";
-			planFile.read(reinterpret_cast<char*>(&actual), sizeof(archivo));
-		}
-
-		planFile.close();
-	}
+	cout << "\n";
+	imprimirClases(_codigoPlan);
 }
 
 void PlanEstudioUniversidad::imprimirClases(int _codigoPlan) {
 	for (int i = 0; i < VecClases.size(); i++) {
 		if (VecClases[i]->getCodigoPlan() == _codigoPlan) {
 			VecClases[i]->imprimir();
+		}
+	}
+}
+
+Materias* PlanEstudioUniversidad::getPlan(int _codigoPlan) {
+	for (int i = 0; i < VecClases.size(); i++) {
+		if (VecClases[i]->getCodigoPlan() == _codigoPlan) {
+			return VecClases[i];
 		}
 	}
 }

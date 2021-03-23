@@ -45,6 +45,8 @@ public:
 	int getCodigoPlan();
 	void setCodigoPlan(int);
 
+	materia** getRaices();
+
 private:
 	materia** raices;
 	int cantidadRaices;

@@ -36,7 +36,7 @@ void Materias::agregarMateria(int _codigoPadre, int _codigoMateria, int _uv,
 			cout << "Clase requisito NO existe!\n";
 			delete nueva;
 			return;
-		}
+		} 
 		else {
 
 			//Arreglo de apuntadores + 1
@@ -90,6 +90,10 @@ void Materias::setCodigoPlan(int _codigo) {
 	this->codigoPlan = _codigo;
 }
 
+materia** Materias::getRaices() {
+	return this->raices;
+}
+
 bool Materias::estaVacio() {
 	return raices == nullptr;
 }
@@ -99,7 +103,8 @@ void Materias::imprimirRec(materia* _raiz) {
 		return;
 
 	cout << "materia { codigo: " << _raiz->codigo << ", uv: " << _raiz->uv << ", año: " << _raiz->añoPlan 
-		<< ", periodo: " << _raiz->periodo <<", nombre: " << _raiz->nombre << ", codigo requisito: " << _raiz->requisito << " }\n";
+		<< ", periodo: " << _raiz->periodo <<", nombre: " << _raiz->nombre << ", codigo requisito: " 
+		<< _raiz->requisito  << " }\n";
 
 	for (int i = 0; i < _raiz->cantidadHijos; i++) {
 		imprimirRec(_raiz->hijos[i]);

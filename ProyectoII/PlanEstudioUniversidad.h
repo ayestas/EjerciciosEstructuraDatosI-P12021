@@ -23,16 +23,27 @@ struct archivo {
 	short int bloques; //2 bytes
 }; //sizeof = 50 bytes
 
+struct clases {
+	int codigo;
+	char* nombre;
+	short int uv;
+	int añoPlan;
+	short int periodo;
+	int requisito;
+};
+
 class PlanEstudioUniversidad {
 public:
 	PlanEstudioUniversidad ();
 
-	void agregarPlanEstudio(int, const char*, int);
-	void agregarMateriaPadre(int, int);
-	void agregarMateria(int, int);
+	void agregarPlanEstudio(int, const char*, int, int);
+	void agregarMateriaPadre(Materias*, int);
+	void agregarMateria(Materias*, int);
 	
-	void consultarPlanEstudio();
+	void consultarPlanEstudio(int);
 	void imprimirClases(int);
+	
+	Materias* getPlan(int);
 
 	bool BuscarPlanEstudio(int);
 
