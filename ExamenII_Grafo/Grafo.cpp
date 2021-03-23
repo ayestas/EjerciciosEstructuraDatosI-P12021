@@ -137,10 +137,10 @@ void Grafo::imprimirListaAdy() {
 	}
 	cout << "\n";
 
-	for (int x = 0; x < nVertices; x++) {
-		cout << setw(3) << vertices[x];
+	for (int j = 0; j < nVertices; j++) {
+		cout << setw(3) << vertices[j];
 		for (int i = 0; i < nVertices; i++) {
-			cout << setw(3) << "[ " << aristas[x][i] << " ]";
+			cout << setw(3) << "[ " << LA[j][i] << " ]";
 		}
 		cout << endl;
 	}
