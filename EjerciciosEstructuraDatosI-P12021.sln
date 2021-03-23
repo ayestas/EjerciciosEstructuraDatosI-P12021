@@ -76,6 +76,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlgoritmoBellmanFord", "AlgoritmoBellmanFord\AlgoritmoBellmanFord.vcxproj", "{C752C838-0BB1-457F-BD7F-3D2D4E992D91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Semana10", "Semana10", "{D2354340-EE15-46F5-AECA-C609C76870BF}"
+	ProjectSection(SolutionItems) = preProject
+		TextFile1.txt = TextFile1.txt
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExamenII_ArbolB", "ExamenII\ExamenII.vcxproj", "{B8DA7EDF-FC81-49F0-AC1C-F8264F02F958}"
 EndProject

@@ -1,0 +1,20 @@
+Ejemplo 1:
+En algunas revistas te presentan un quiz en donde a partir de una pregunta tienes n opciones de respuestas que te llevan a otra pregunta con otra vez n opcion de respuestas; como por ejemplo:
+
+	            (Eres mayor de edad)
+        	     /        	         \                
+              (si)	                 (no)
+           (Fumas)	            (Eres menor de 15)
+         /    |     \		          /    \
+     (si)  (no) (pocas veces)      (si)   (no)
+
+
+Ejemplo 2: 
+En una oficina o un area de trabajo hay jerarquía de puestos entonces muchas veces estos hefes tienen subordinados y los subordinados tienen otro que lo siguencomo por ejemplo:
+                 	  (Consejo de Administracion)
+      	 	        /               	          \               
+	(Asesoria Laboral)                   (Direccion General)
+				                    /            |             \
+		                (Dept. Comercial)  (Dept. Aprov.) (Dept. Finanzas)
+		         /           |                   |            |            \
+	         (Ventas)  (Publicidad)           (Compras)    (Contabilidad) (Tesoreria)
