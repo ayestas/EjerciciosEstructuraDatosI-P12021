@@ -10,33 +10,19 @@ using std::vector;
 using std::string;
 
 int main() {
-	/*vector<PlanEstudioUniversidad> vecPlan;
 
-	PlanEstudioUniversidad plan();
-
-	vecPlan.push_back(plan);
-	
-	plan.agregarMateriaPadre(100, 4, 2001, 2, "Introduccion al Algebra", 000);
-	plan.agregarMateriaPadre(200, 4, 2001, 2, "Ofimatica I", 000);
-	plan.agregarMateriaPadre(300, 4, 2001, 2, "Programacion I", 000);
-
-	plan.agregarMateria(100, 101, 4, 2001, 2, "Algebra", 100);
-	plan.agregarMateria(100, 102, 4, 2001, 2, "Geo y Tri", 101);
-	plan.agregarMateria(300, 301, 4, 2001, 2, "Programacion II", 300);
-	plan.agregarMateria(200, 201, 4, 2001, 2, "Ofimatica II", 200);*/
-
-	int menu = 0, codigo = 0, bloques = 0, clases = 0, raiz;
+	int menu = 0, codigo = 0, bloques = 0, clases = 0, raiz, subMenu = 0;
+	int _numero = 0, _indice = 0, _clasesAprob = 0, _codigoPlan = 0;
 	string _nombre = "";
 	const char* nombre = new char[40];
 
 	PlanEstudioUniversidad plan;
-	vector<PlanEstudioUniversidad> vecPlan;
 
 	do {
 		cout << "\n\n*** M A T R I C U L A S  E  I N G R E S O  D E  C L A S E S ***"
 			<< "\n1. Crear Plan de Estudio"
-			<< "\n2. Ver Planes de Estudio"
-			<< "\n3. Imprimir Clases"
+			<< "\n2. Iniciar/Cerrar Inscripcion de Clases"
+			<< "\n3. Informe Academico"
 			<< "\n4. Salir"
 			<< "\n\nIngrese opcion: ";
 		cin >> menu;
@@ -60,18 +46,43 @@ int main() {
 			break;
 
 		case 2:
-			cout << "\n** VER PLANES DE ESTUDIO **\n\nIngrese el codigo del plan de estudio: ";
-			cin >> codigo;
+			cout << "\n** INICIAR/CERRAR INSCRIPCION DE CLASES **\n1. Ingreso de nuevo alumno\n2. Matricula de clases\n"
+				<< "Ingrese opcion: ";
+			cin >> subMenu;
 
-			plan.consultarPlanEstudio(codigo);
+			switch (subMenu) {
+			case 1:
+				cout << "\n* INGRESO DE ALUMNOS *";
+				cout << "\nIngrese el numero de cuenta: ";
+				cin >> _numero;
+				cout << "Ingrese el nombre del alumno: ";
+				cin >> _nombre;
+				cout << "Ingrese el indice del alumno: ";
+				cin >> _indice;
+				cout << "Ingrese el periodo de ingreso: ";
+				cin >> _clasesAprob;
+				cout << "Ingrese el codigo del plan de estudio: ";
+				cin >> _codigoPlan;
+
+				nombre = _nombre.c_str();
+
+				if (plan.BuscarPlanEstudio(_codigoPlan)) {
+					plan.ingresarAlumno(_numero, nombre, _indice, _clasesAprob, _codigoPlan);
+				}
+				break;
+
+			case 2:
+				plan.ingresarMatricula();
+				break;
+			}
 
 			break;
 
 		case 3:
-			cout << "\n** CLASES DEL PLAN DE ESTUDIO **\n\nIngrese el codigo del plan de estudio: ";
-			cin >> codigo;
+			cout << "\n INFORMACION ACADEMICA **\n\nIngrese su numero de cuenta: ";
+			cin >> _numero;
 
-			plan.imprimirClases(codigo);
+			plan.imprimirInfoAcademica(_numero);
 
 			break;
 		}

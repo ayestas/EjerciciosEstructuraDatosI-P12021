@@ -21,7 +21,7 @@
     <ClInclude Include="Materias.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Matricula.h">
+    <ClInclude Include="Matriculas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="Materias.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Matricula.cpp">
+    <ClCompile Include="Matriculas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -147,10 +147,89 @@ void PlanEstudioUniversidad::imprimirClases(int _codigoPlan) {
 	}
 }
 
-Materias* PlanEstudioUniversidad::getPlan(int _codigoPlan) {
-	for (int i = 0; i < VecClases.size(); i++) {
-		if (VecClases[i]->getCodigoPlan() == _codigoPlan) {
-			return VecClases[i];
+void PlanEstudioUniversidad::ingresarAlumno(int _numero, const char* _nombre, int _indice, int _clasesAprob, int _codigoPlan) {
+	string filename = std::to_string(_numero) + "_alumno.bin";
+	ofstream alumnoFile(filename, ios::out | ios::app | ios::binary);
+	if (!alumnoFile) {
+		cout << "Error al intentar abrir el archivo .bin\n";
+		return;
+	}
+
+	numCuentas.push_back(_numero);
+	alumnos nuevo;
+
+	nuevo.numero = _numero;
+	nuevo.nombre = new char[strlen(_nombre)];
+	strcpy_s(nuevo.nombre, strlen(_nombre) + 1, _nombre);
+	nuevo.codigoPlan = _codigoPlan;
+	nuevo.indice = _indice;
+	nuevo.clasesAprob = _clasesAprob;
+
+	Matriculas* matricula = new Matriculas(_numero);
+	VecMatriculadas.push_back(matricula);
+
+	alumnoFile.write(reinterpret_cast<const char*>(&nuevo), sizeof(alumnos));
+
+	alumnoFile.close();
+}
+
+void PlanEstudioUniversidad::ingresarMatricula() {
+	int _numCuenta = 0, cantClases = 0, codigoMateria = 0, _nota = 0, _año = 0, _periodo = 0;
+
+	cout << "\n* MATRICULA DE CLASES *\nIngrese su numero de cuenta: ";
+	cin >> _numCuenta;
+
+	if (BuscarAlumno(_numCuenta)) {
+		cout << "\n* CLASES DISPONIBLES *\n";
+		imprimirClases(getCodigoPlan(_numCuenta));
+
+		cout << "\n\nIngrese la cantidad de clases a matricular: ";
+		cin >> cantClases;
+
+		for (int i = 0; i < cantClases; i++) {
+			cout << "\nIngrese codigo de la materia a matricular: ";
+			cin >> codigoMateria;
+			cout << "Ingrese la nota de la clase: ";
+			cin >> _nota;
+			cout << "Ingrese el año de matricula: ";
+			cin >> _año;
+			cout << "Ingrese el periodo de matricula: ";
+			cin >> _periodo;
+
+
+
+			if (!BuscarAñoMatriculado(_año)) {
+				for (int i = 0; i < VecMatriculadas.size(); i++) {
+					if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+						añosMatriculados.push_back(_año);
+						VecMatriculadas[i]->agregarMatriculaPorAño(codigoMateria, _nota, _año, _periodo);
+					}
+				}
+			}
+			else {
+				for (int i = 0; i < VecMatriculadas.size(); i++) {
+					if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+						VecMatriculadas[i]->agregarMatriculaPorPeriodo(codigoMateria, _nota, _año, _periodo);
+					}
+				}
+			}
+		}
+	}
+}
+
+void PlanEstudioUniversidad::imprimirInfoAcademica(int _numCuenta) {
+	cout << "\n\n* PROMEDIO ACADEMICO *\n";
+	for (int i = 0; i < VecMatriculadas.size(); i++) {
+		if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+			cout << "Promedio: " << VecMatriculadas[i]->getPromedio();
+		}
+	}
+
+	cout << "\n\n* HISTORIAL ACADEMICO *\n";
+	
+	for (int i = 0; i < VecMatriculadas.size(); i++) {
+		if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+			VecMatriculadas[i]->imprimir();
 		}
 	}
 }
@@ -165,4 +244,46 @@ bool PlanEstudioUniversidad::BuscarPlanEstudio(int _codigo) {
 		return false;
 	}
 
+}
+
+bool PlanEstudioUniversidad::BuscarAñoMatriculado(int _año) {
+	if (std::find(añosMatriculados.begin(), añosMatriculados.end(), _año) != añosMatriculados.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool PlanEstudioUniversidad::BuscarAlumno(int _numero) {
+	if (std::find(numCuentas.begin(), numCuentas.end(), _numero) != numCuentas.end()) {
+		cout << "\nEXISTE\n";
+		return true;
+	}
+	else {
+		cout << "\nNO EXISTE\n";
+		return false;
+	}
+}
+
+int PlanEstudioUniversidad::getCodigoPlan(int _numCuenta) {
+	string filename = std::to_string(_numCuenta) + "_alumno.bin";
+	ifstream alumnoFile(filename, ios::in, ios::binary);
+	if (!alumnoFile)
+		return -1;
+
+	alumnos alumno;
+	alumnoFile.seekg(0, ios::beg);
+
+	alumnoFile.read(reinterpret_cast<char*>(&alumno), sizeof(alumnos));
+
+	while (!alumnoFile.eof()) {
+		if (_numCuenta == alumno.numero) {
+			alumnoFile.close();
+			return alumno.codigoPlan;
+		}
+		alumnoFile.read(reinterpret_cast<char*>(&alumno), sizeof(alumnos));
+	}
+
+	return -1;
 }

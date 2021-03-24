@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "Materias.h"
+#include "Matriculas.h"
 
 using std::cout;
 using std::cin;
@@ -32,24 +33,39 @@ struct clases {
 	int requisito;
 };
 
+struct alumnos {
+	int numero;
+	char* nombre;
+	int codigoPlan;
+	short int indice;
+	short int clasesAprob;
+};
+
 class PlanEstudioUniversidad {
 public:
 	PlanEstudioUniversidad ();
 
 	void agregarPlanEstudio(int, const char*, int, int);
-	void agregarMateriaPadre(Materias*, int);
-	void agregarMateria(Materias*, int);
 	
 	void consultarPlanEstudio(int);
 	void imprimirClases(int);
 	
-	Materias* getPlan(int);
+	void ingresarAlumno(int, const char*, int, int, int);
+	void ingresarMatricula();
+
+	void imprimirInfoAcademica(int);
 
 	bool BuscarPlanEstudio(int);
+	bool BuscarAñoMatriculado(int);
+	bool BuscarAlumno(int);
+	int getCodigoPlan(int);
 
 private:
 	vector<int> codigos;
+	vector<int> numCuentas;
+	vector<int> añosMatriculados;
 	vector<Materias*> VecClases;
+	vector<Matriculas*> VecMatriculadas;
 };
 
 #endif // !PLAN_ESTUDIO_UNIVERSIDAD_H
