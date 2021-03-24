@@ -56,14 +56,16 @@ public:
 	void imprimirInfoAcademica(int);
 
 	bool BuscarPlanEstudio(int);
-	bool BuscarAñoMatriculado(int);
+	bool BuscarAñoMatriculado(string);
+	bool BuscarClaseMatriculada(string);
 	bool BuscarAlumno(int);
 	int getCodigoPlan(int);
 
 private:
 	vector<int> codigos;
 	vector<int> numCuentas;
-	vector<int> añosMatriculados;
+	vector<string> añosMatriculados;
+	vector<string> codigoClasesMatriculadas;
 	vector<Materias*> VecClases;
 	vector<Matriculas*> VecMatriculadas;
 };

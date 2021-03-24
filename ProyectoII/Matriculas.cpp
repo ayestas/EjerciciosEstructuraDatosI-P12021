@@ -55,8 +55,6 @@ void Matriculas::agregarMatriculaPorPeriodo(int _codigo, int _nota, int _año, in
 			padre->hijas = tmp;
 			padre->cantidadHijas++;
 			notas.push_back(_nota);
-
-			cout << "Clase agregada exitosamente!\n";
 		}
 	}
 }

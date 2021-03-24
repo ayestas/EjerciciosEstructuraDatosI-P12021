@@ -174,8 +174,7 @@ void PlanEstudioUniversidad::ingresarAlumno(int _numero, const char* _nombre, in
 }
 
 void PlanEstudioUniversidad::ingresarMatricula() {
-	int _numCuenta = 0, cantClases = 0, codigoMateria = 0, _nota = 0, _año = 0, _periodo = 0;
-
+	int _numCuenta = 0, cantClases = 0;
 	cout << "\n* MATRICULA DE CLASES *\nIngrese su numero de cuenta: ";
 	cin >> _numCuenta;
 
@@ -187,6 +186,9 @@ void PlanEstudioUniversidad::ingresarMatricula() {
 		cin >> cantClases;
 
 		for (int i = 0; i < cantClases; i++) {
+			int codigoMateria = 0, _nota = 0, _año = 0, _periodo = 0;
+			string cuentaCodigo = "", cuentaAño = "";
+
 			cout << "\nIngrese codigo de la materia a matricular: ";
 			cin >> codigoMateria;
 			cout << "Ingrese la nota de la clase: ";
@@ -196,23 +198,30 @@ void PlanEstudioUniversidad::ingresarMatricula() {
 			cout << "Ingrese el periodo de matricula: ";
 			cin >> _periodo;
 
+			cuentaCodigo = getCodigoPlan(_numCuenta) + "_" + codigoMateria;
+			cuentaAño = getCodigoPlan(_numCuenta) + "_" + _año;
 
-
-			if (!BuscarAñoMatriculado(_año)) {
-				for (int i = 0; i < VecMatriculadas.size(); i++) {
-					if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
-						añosMatriculados.push_back(_año);
-						VecMatriculadas[i]->agregarMatriculaPorAño(codigoMateria, _nota, _año, _periodo);
+			for (int i = 0; i < VecMatriculadas.size(); i++) {
+				if (BuscarClaseMatriculada(cuentaCodigo)) {
+					if (BuscarAñoMatriculado(cuentaAño)) {
+						if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+							añosMatriculados.push_back(cuentaAño);
+							codigoClasesMatriculadas.push_back(cuentaCodigo);
+							VecMatriculadas[i]->agregarMatriculaPorAño(codigoMateria, _nota, _año, _periodo);
+						}
+					}
+					else if (!BuscarAñoMatriculado(cuentaAño)) {
+						if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
+							codigoClasesMatriculadas.push_back(cuentaCodigo);
+							VecMatriculadas[i]->agregarMatriculaPorPeriodo(codigoMateria, _nota, _año, _periodo);
+						}
 					}
 				}
-			}
-			else {
-				for (int i = 0; i < VecMatriculadas.size(); i++) {
-					if (VecMatriculadas[i]->getNumCuenta() == _numCuenta) {
-						VecMatriculadas[i]->agregarMatriculaPorPeriodo(codigoMateria, _nota, _año, _periodo);
-					}
+				else if (!BuscarClaseMatriculada(cuentaCodigo)) {
+					cout << "\nClase ya estaba matriculada!!!\n";
 				}
 			}
+
 		}
 	}
 }
@@ -246,12 +255,26 @@ bool PlanEstudioUniversidad::BuscarPlanEstudio(int _codigo) {
 
 }
 
-bool PlanEstudioUniversidad::BuscarAñoMatriculado(int _año) {
-	if (std::find(añosMatriculados.begin(), añosMatriculados.end(), _año) != añosMatriculados.end()) {
-		return true;
+bool PlanEstudioUniversidad::BuscarAñoMatriculado(string _año) {
+	for (int i = 0; i < añosMatriculados.size(); i++) {
+		if (añosMatriculados[i] == _año) {
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	}
-	else {
-		return false;
+}
+
+bool PlanEstudioUniversidad::BuscarClaseMatriculada(string _codigoMateria) {
+	for (int i = 0; i < codigoClasesMatriculadas.size(); i++) {
+		if (codigoClasesMatriculadas[i] == _codigoMateria) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 
